@@ -1,10 +1,12 @@
 
-CFLAGS = -c
-LDFLAGS =
-ODIR = baddir
+CFLAGS = -c -I../../common -O2
+CFLAGS += $(USER_FLAGS)
+LDFLAGS = $(USER_FLAGS)
+BINDIR = ../bin
+ODIR = ../build-qbsp3
 
 EXEBASE = qbsp3
-EXE = $(ODIR)/qbsp3
+EXE = $(BINDIR)/qbsp3
 all: $(EXE)
 
 _next:
@@ -26,20 +28,20 @@ _irixclean:
 _osf:
 	make "CFLAGS = -c -O4 -I../../common -threads -DDOUBLEVEC_T" "LDFLAGS = -threads" "ODIR = osf"
 
-linux:
-	-mkdir -p ../build-qbsp3
-	make CFLAGS="-c -I../../common -O2" ODIR=../build-qbsp3
-	
 clean:
-	rm -f $(ODIR)/*.o $(ODIR)/$(EXEBASE)
+	rm -f $(ODIR)/*.o $(EXE)
 
 install:
-	cp irix/$(EXEBASE) /limbo/quake2/bin_irix
+	cp $(EXE) $(DESTDIR)/usr/local/bin
 
 
 FILES = $(ODIR)/brushbsp.o $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/faces.o $(ODIR)/nodraw.o $(ODIR)/glfile.o $(ODIR)/leakfile.o $(ODIR)/map.o $(ODIR)/mathlib.o $(ODIR)/polylib.o $(ODIR)/portals.o $(ODIR)/prtfile.o $(ODIR)/qbsp3.o $(ODIR)/scriplib.o $(ODIR)/textures.o $(ODIR)/threads.o $(ODIR)/tree.o $(ODIR)/writebsp.o $(ODIR)/csg.o
 
-$(EXE) : $(FILES)
+dirs:
+	-mkdir -p $(BINDIR)
+	-mkdir -p $(ODIR)
+
+$(EXE) : dirs $(FILES)
 	cc -o $(EXE) $(LDFLAGS) $(FILES) -lm
 	
 $(ODIR)/brushbsp.o : brushbsp.c

@@ -1,3 +1,22 @@
+Fork of Quake II compiler tools with support for map format 220 used by Jackhammer level editor.
+
+# Building from sources on Linux
+
+Building all compilers:
+
+    (cd bsp/qbsp3 && make)
+    (cd bsp/qrad3 && make)
+    (cd bsp/qvis3 && make)
+
+Building x86_64 binaries on x86 host (requires gcc-multilib to be installed):
+
+    export OPTIONS="USER_FLAGS=-m64 BINDIR=../bin-m64"
+    (cd bsp/qbsp3 && make ODIR=../build-m64-qbsp3 $OPTIONS)
+    (cd bsp/qrad3 && make ODIR=../build-m64-qrad3 $OPTIONS)
+    (cd bsp/qvis3 && make ODIR=../build-m64-qvis3 $OPTIONS)
+
+# Original README.txt by id Software
+
 Fri Feb 17 11:10:50 CST 2006
 
 If you are getting this file long after our initial release,

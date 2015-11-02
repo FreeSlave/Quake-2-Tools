@@ -1,10 +1,12 @@
 
-CFLAGS = -c
-LDFLAGS =
-ODIR = baddir
+CFLAGS = -c -I../../common -O2
+CFLAGS += $(USER_FLAGS)
+LDFLAGS = $(USER_FLAGS) -lm
+BINDIR = ../bin
+ODIR = ../build-qvis3
 
 EXEBASE = qvis3
-EXE = $(ODIR)/qvis3
+EXE = $(BINDIR)/qvis3
 all: $(EXE)
 
 _next:
@@ -22,10 +24,6 @@ _irixclean:
 
 _osf:
 	make "CFLAGS = -c -O4 -I../../common -threads" "LDFLAGS = -threads -lm" "ODIR = osf"
-
-linux:
-	-mkdir -p ../build-qvis3
-	make CFLAGS="-c -I../../common -O2" LDFLAGS="-lm" ODIR=../build-qvis3
 	
 clean:
 	rm -f $(ODIR)/*.o $(ODIR)/$(EXEBASE)
@@ -36,7 +34,11 @@ install:
 
 FILES = $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/mathlib.o $(ODIR)/scriplib.o  $(ODIR)/threads.o $(ODIR)/qvis3.o $(ODIR)/flow.o
 
-$(EXE) : $(FILES)
+dirs:
+	-mkdir -p $(BINDIR)
+	-mkdir -p $(ODIR)
+
+$(EXE) : dirs $(FILES)
 	cc -o $(EXE) $(LDFLAGS) $(FILES)
 	
 $(ODIR)/qvis3.o : qvis3.c

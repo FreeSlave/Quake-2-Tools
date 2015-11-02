@@ -1,10 +1,12 @@
 
-CFLAGS = -c
-LDFLAGS =
-ODIR = baddir
+CFLAGS = -c -I../../common -O2
+CFLAGS += $(USER_FLAGS)
+LDFLAGS = $(USER_FLAGS)
+BINDIR = ../bin
+ODIR = ../build-qrad3
 
 EXEBASE = qrad3
-EXE = $(ODIR)/qrad3
+EXE = $(BINDIR)/qrad3
 all: $(EXE)
 
 _next:
@@ -25,21 +27,21 @@ _irixclean:
 
 _osf:
 	make "CFLAGS = -c -O4 -I../../common -threads" "LDFLAGS = -threads" "ODIR = osf"
-
-linux:
-	-mkdir -p ../build-qrad3
-	make CFLAGS="-c -I../../common -O2" ODIR=../build-qrad3
 	
 clean:
-	rm -f $(ODIR)/*.o $(ODIR)/$(EXEBASE)
+	rm -f $(ODIR)/*.o $(EXE)
 
 install:
-	cp irix/$(EXEBASE) /limbo/quake2/bin_irix
+	cp $(EXE) $(DESTDIR)/usr/local/bin
 
 
 FILES = $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/lbmlib.o $(ODIR)/mathlib.o $(ODIR)/scriplib.o $(ODIR)/polylib.o $(ODIR)/qrad3.o $(ODIR)/threads.o $(ODIR)/trace.o $(ODIR)/lightmap.o $(ODIR)/patches.o
 
-$(EXE) : $(FILES)
+dirs:
+	-mkdir -p $(BINDIR)
+	-mkdir -p $(ODIR)
+
+$(EXE) : dirs $(FILES)
 	cc -o $(EXE) $(LDFLAGS) $(FILES) -lm
 	
 $(ODIR)/qrad3.o : qrad3.c
