@@ -216,6 +216,8 @@ extern	textureref_t	textureref[MAX_MAP_TEXTURES];
 int	FindMiptex (char *name);
 
 int TexinfoForBrushTexture (plane_t *plane, brush_texture_t *bt, vec3_t origin);
+//DarkEssence: function TexinfoForBrushTexture_UV for #mapversion 220
+int TexinfoForBrushTexture_UV ( brush_texture_t *bt, vec_t *UVaxis);
 
 //=============================================================================
 

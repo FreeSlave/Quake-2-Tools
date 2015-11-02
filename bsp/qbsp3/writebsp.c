@@ -499,9 +499,10 @@ EndBSPFile
 void EndBSPFile (void)
 {
 	char	path[1024];
+#if 0					// DarkEssence: warning fix - 'len', 'buf' unreferenced local variable
 	int		len;
 	byte	*buf;
-
+#endif
 
 	EmitBrushes ();
 	EmitPlanes ();
@@ -517,7 +518,6 @@ void EndBSPFile (void)
 
 	// write the map
 	sprintf (path, "%s.bsp", source);
-	printf ("Writing %s\n", path);
 	WriteBSPFile (path);
 }
 

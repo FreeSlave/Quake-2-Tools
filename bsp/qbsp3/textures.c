@@ -100,7 +100,72 @@ void TextureAxisFromPlane(plane_t *pln, vec3_t xv, vec3_t yv)
 	VectorCopy (baseaxis[bestaxis*3+2], yv);
 }
 
+// DarkEssence: function for new #mapversion with UVaxis
+int TexinfoForBrushTexture_UV (brush_texture_t *bt, vec_t *UVaxis)
+{
+	texinfo_t	tx, *tc;
+	brush_texture_t	anim;
+	int		i, j, k;
+	int		mt;
 
+	if (!bt->name[0])
+		return 0;
+
+	memset (&tx, 0, sizeof(tx));
+	strcpy (tx.texture, bt->name);
+
+	if (!bt->scale[0])
+		bt->scale[0] = 1;
+	if (!bt->scale[1])
+		bt->scale[1] = 1;
+
+	for (i=0 ; i<2 ; i++)
+		for (j=0 ; j<3 ; j++)
+			tx.vecs[i][j] = UVaxis[i*3+j] / bt->scale[i];
+
+	tx.vecs[0][3] = bt->shift[0];
+	tx.vecs[1][3] = bt->shift[1];
+	tx.flags = bt->flags;
+	tx.value = bt->value;
+
+
+	tc = texinfo;
+	for (i=0 ; i<numtexinfo ; i++, tc++)
+	{
+		if (tc->flags != tx.flags)
+			continue;
+		if (tc->value != tx.value)
+			continue;
+		for (j=0 ; j<2 ; j++)
+		{
+			if (strcmp (tc->texture, tx.texture))
+				goto skip_mv;
+			for (k=0 ; k<4 ; k++)
+			{
+				if (tc->vecs[j][k] != tx.vecs[j][k])
+					goto skip_mv;
+			}
+		}
+		return i;
+	skip_mv:;
+	}
+	*tc = tx;
+	numtexinfo++;
+
+	// load the next animation
+	mt = FindMiptex (bt->name);
+	if (textureref[mt].animname[0])
+	{
+		anim = *bt;
+		strcpy (anim.name, textureref[mt].animname);
+		tc->nexttexinfo = TexinfoForBrushTexture_UV(&anim, UVaxis);
+	}
+	else
+		tc->nexttexinfo = -1;
+
+
+	return i;
+}
 
 
 int TexinfoForBrushTexture (plane_t *plane, brush_texture_t *bt, vec3_t origin)
@@ -111,7 +176,7 @@ int TexinfoForBrushTexture (plane_t *plane, brush_texture_t *bt, vec3_t origin)
 	vec_t	ns, nt;
 	texinfo_t	tx, *tc;
 	int		i, j, k;
-	float	shift[2];
+	vec_t	shift[2];
 	brush_texture_t		anim;
 	int				mt;
 

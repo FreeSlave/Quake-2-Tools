@@ -596,7 +596,8 @@ int main (int argc, char **argv)
 	double		start, end;
 	char		name[1024];
 
-	printf ("----- Radiosity ----\n");
+	printf( "Quake II LIGHT Compiler (build " __DATE__ ")\n" );
+	printf( "----------- Radiosity -----------\n" );
 
 	verbose = false;
 
@@ -706,11 +707,12 @@ int main (int argc, char **argv)
 	RadWorld ();
 
 	sprintf (name, "%s%s", outbase, source);
-	printf ("writing %s\n", name);
 	WriteBSPFile (name);
 
 	end = I_FloatTime ();
-	printf ("%5.0f seconds elapsed\n", end-start);
+
+	printf( "\n--------- end qrad3 ---------\n" );
+	Q_LogTimeElapsed( end-start );
 	
 	return 0;
 }

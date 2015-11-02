@@ -56,7 +56,7 @@ typedef unsigned char byte;
 extern int myargc;
 extern char **myargv;
 
-char *strupr (char *in);
+char *strtoupper (char *in);
 char *strlower (char *in);
 int Q_strncasecmp (char *s1, char *s2, int n);
 int Q_strcasecmp (char *s1, char *s2);
@@ -140,6 +140,8 @@ typedef struct
 	byte	*data;
 	int		count;
 } cblock_t;
+
+void Q_LogTimeElapsed( double elapsed_time );
 
 
 #endif

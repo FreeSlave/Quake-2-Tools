@@ -372,7 +372,7 @@ void MakeNodePortal (node_t *node)
 	portal_t	*new_portal, *p;
 	winding_t	*w;
 	vec3_t		normal;
-	float		dist;
+	vec_t		dist;
 	int			side;
 
 	w = BaseWindingForNode (node);
@@ -990,7 +990,7 @@ void FindPortalSide (portal_t *p)
 	int			i,j;
 	int			planenum;
 	side_t		*side, *bestside;
-	float		dot, bestdot;
+	vec_t		dot, bestdot;
 	plane_t		*p1, *p2;
 
 	// decide which content change is strongest

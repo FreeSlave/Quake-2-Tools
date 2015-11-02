@@ -64,7 +64,7 @@ node_t	*BlockTree (int xl, int yl, int xh, int yh)
 {
 	node_t	*node;
 	vec3_t	normal;
-	float	dist;
+	vec_t	dist;
 	int		mid;
 
 	if (xl == xh && yl == yh)
@@ -340,7 +340,8 @@ int main (int argc, char **argv)
 	double		start, end;
 	char		path[1024];
 
-	printf ("---- qbsp3 ----\n");
+	printf( "Quake II BSP Compiler (build " __DATE__ ")\n" );
+	printf( "----------- qbsp3 -----------\n" );
 
 	for (i=1 ; i<argc ; i++)
 	{
@@ -530,7 +531,9 @@ numthreads = 1;		// multiple threads aren't helping...
 	}
 
 	end = I_FloatTime ();
-	printf ("%5.0f seconds elapsed\n", end-start);
+
+	printf( "\n--------- end qbsp3 ---------\n" );
+	Q_LogTimeElapsed( end-start );
 
 	return 0;
 }

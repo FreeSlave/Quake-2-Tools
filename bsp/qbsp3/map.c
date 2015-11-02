@@ -51,6 +51,8 @@ int		c_areaportals;
 
 int		c_clipbrushes;
 
+int g_nMapFileVersion = 0;		// DarkEssence: variable for check #mapversion 
+								// #mapversion in search to find in code
 /*
 =============================================================================
 
@@ -267,7 +269,7 @@ int		FindFloatPlane (vec3_t normal, vec_t dist)
 PlaneFromPoints
 ================
 */
-int PlaneFromPoints (int *p0, int *p1, int *p2)
+int PlaneFromPoints (vec3_t p0, vec3_t p1, vec3_t p2)
 {
 	vec3_t	t1, t2, normal;
 	vec_t	dist;
@@ -347,10 +349,10 @@ void AddBrushBevels (mapbrush_t *b)
 	brush_texture_t	tdtemp;
 	side_t	*s, *s2;
 	vec3_t	normal;
-	float	dist;
+	vec_t	dist;
 	winding_t	*w, *w2;
 	vec3_t	vec, vec2;
-	float	d;
+	vec_t	d;
 
 	//
 	// add the axial planes
@@ -547,7 +549,8 @@ void ParseBrush (entity_t *mapent)
 	side_t		*side, *s2;
 	int			planenum;
 	brush_texture_t	td;
-	int			planepts[3][3];
+	vec3_t		planepts[3];
+	vec_t		UVaxis[6];  // DarkEssence: UV axis in 220 #mapversion
 
 	if (nummapbrushes == MAX_MAP_BRUSHES)
 		Error ("nummapbrushes == MAX_MAP_BRUSHES");
@@ -579,7 +582,7 @@ void ParseBrush (entity_t *mapent)
 			for (j=0 ; j<3 ; j++)
 			{
 				GetToken (false);
-				planepts[i][j] = atoi(token);
+				planepts[i][j] = atof(token);
 			}
 			
 			GetToken (false);
@@ -588,18 +591,67 @@ void ParseBrush (entity_t *mapent)
 				
 		}
 
-
 		//
 		// read the texturedef
 		//
 		GetToken (false);
 		strcpy (td.name, token);
 
-		GetToken (false);
-		td.shift[0] = atoi(token);
-		GetToken (false);
-		td.shift[1] = atoi(token);
-		GetToken (false);
+		// DarkEssence: take parms according to mapversion
+		if( g_nMapFileVersion < 220 )	// old #mapversion
+		{
+			GetToken (false);
+			td.shift[0] = atoi(token);
+			GetToken (false);
+			td.shift[1] = atoi(token);
+
+		}else{		// new #mapversion
+			GetToken (false);
+			if (strcmp (token, "["))
+			{
+				Error("missing '[ in texturedef");
+			}
+
+			GetToken (false);
+			UVaxis[0] = atof(token);
+			GetToken (false);
+			UVaxis[1] = atof(token);
+			GetToken (false);
+			UVaxis[2] = atof(token);
+			GetToken (false);
+			td.shift[0] = atof(token);
+
+			GetToken (false);
+			if (strcmp (token, "]"))
+			{
+				Error("missing ']' in texturedef");
+			}
+
+			// texture V axis
+			GetToken (false);
+			if (strcmp (token, "["))
+			{
+				Error("missing '[ in texturedef");
+			}
+
+			GetToken (false);
+			UVaxis[3] = atof(token);
+			GetToken (false);
+			UVaxis[4] = atof(token);
+			GetToken (false);
+			UVaxis[5] = atof(token);
+			GetToken (false);
+			td.shift[1] = atof(token);
+
+			GetToken (false);
+			if (strcmp (token, "]"))
+			{
+				Error("missing ']' in texturedef");
+			}
+
+		}
+
+		GetToken(false);
 		td.rotate = atoi(token);	
 		GetToken (false);
 		td.scale[0] = atof(token);
@@ -681,8 +733,13 @@ void ParseBrush (entity_t *mapent)
 
 		side = b->original_sides + b->numsides;
 		side->planenum = planenum;
-		side->texinfo = TexinfoForBrushTexture (&mapplanes[planenum],
-			&td, vec3_origin);
+		if( g_nMapFileVersion < 220 )	// DarkEssence: texinfo #mapversion
+		{
+			side->texinfo = TexinfoForBrushTexture (&mapplanes[planenum],
+				&td, vec3_origin);
+		}else{					// texinfo for #mapversion 220
+			side->texinfo = TexinfoForBrushTexture_UV (&td, UVaxis);
+		}
 
 		// save the td off in case there is an origin brush and we
 		// have to recalculate the texinfo
@@ -856,6 +913,11 @@ qboolean	ParseMapEntity (void)
 			e = ParseEpair ();
 			e->next = mapent->epairs;
 			mapent->epairs = e;
+
+			if(!strcmp(e->key, "mapversion")) {		  // DarkEssence: set #mapversion
+				g_nMapFileVersion = atoi(e->value);  //  or keep default value - 0
+				RemoveLastEpair ( mapent );
+			}
 		}
 	} while (1);
 

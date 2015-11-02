@@ -62,7 +62,7 @@ winding_t	*AllocWinding (int points)
 		if (c_active_windings > c_peak_windings)
 			c_peak_windings = c_active_windings;
 	}
-	s = sizeof(vec_t)*3*points + sizeof(int);
+	s = sizeof(vec_t)*3*points + sizeof(int) + 4;
 	w = malloc (s);
 	memset (w, 0, s);
 	return w;
@@ -186,7 +186,7 @@ WindingCenter
 void	WindingCenter (winding_t *w, vec3_t center)
 {
 	int		i;
-	float	scale;
+	vec_t	scale;
 
 	VectorCopy (vec3_origin, center);
 	for (i=0 ; i<w->numpoints ; i++)

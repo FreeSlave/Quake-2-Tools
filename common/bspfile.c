@@ -491,6 +491,8 @@ Swaps the bsp file in place, so it should not be referenced again
 */
 void	WriteBSPFile (char *filename)
 {
+	printf ("writing %s\n", filename);
+
 	header = &outheader;
 	memset (header, 0, sizeof(dheader_t));
 
@@ -786,4 +788,15 @@ void 	GetVectorForKey (entity_t *ent, char *key, vec3_t vec)
 	vec[2] = v3;
 }
 
+void RemoveLastEpair( entity_t *ent )
+{
+	epair_t	*e = ent->epairs->next;
 
+	if ( ent->epairs->key )
+		free( ent->epairs->key );
+	if ( ent->epairs->value )
+		free( ent->epairs->value );
+
+	free( ent->epairs );
+	ent->epairs = e;
+}

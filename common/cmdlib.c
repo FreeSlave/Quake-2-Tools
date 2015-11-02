@@ -184,6 +184,53 @@ gamedir will hold qdir + the game directory (id1, id2, etc)
 char		qdir[1024];
 char		gamedir[1024];
 
+int UpDirSize (char *c, char *path)		//DarkEssence: size of name updir
+{
+	int size = 0;
+	while(c != path)	// current dir
+	{
+		if(*c == '/' || *c == '\\')
+		{
+			size++;
+			c--;
+			break;
+		}	
+		if(c != path)
+		{
+			c--;
+		}else{
+			return -1;
+		}
+	}
+	while(c != path)	// up dir
+	{
+		if(*c == '/' || *c == '\\' )
+			return size;
+		c--;
+		if(*c != '/' && *c != '\\' )
+			size++;
+	}
+	return -1;
+}
+
+qboolean isDirInPath( char* dir, char *path )	// DarkEssence: #bugfix: not dirs in qdir path.
+{
+	int len = strlen(dir);
+	char* c = path;
+	if(!Q_strncasecmp (path, dir, len))			// dir name in path
+	{
+		if( ( *(c-1) == '\\' || *(c-1) == '/' ) &&
+			( *(c+len) == '\\' || *(c+len) == '/' ) )
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
 void SetQdirFromPath (char *path)
 {
 	char	temp[1024];
@@ -201,7 +248,7 @@ void SetQdirFromPath (char *path)
 
 	len = strlen(BASEDIRNAME);
 	for (c=path+strlen(path)-1 ; c != path ; c--)
-		if (!Q_strncasecmp (c, BASEDIRNAME, len))
+		if (isDirInPath (BASEDIRNAME, c))
 		{
 			strncpy (qdir, path, c+len+1-path);
 			qprintf ("qdir: %s\n", qdir);
@@ -216,10 +263,43 @@ void SetQdirFromPath (char *path)
 				}
 				c++;
 			}
+			break;
+			//Error ("No gamedir in %s", path);		#fix
+			//return;
+		}
+	// DarkEssence: #fix qdir in path (search "maps")
+	len = strlen("maps");
+	for(c=path+strlen(path)-1 ; c != path ; c--)
+		if (isDirInPath ("maps", c))
+		{
+			len = UpDirSize(c, path);
+			while (c != path)
+			{
+				if (*c == '/' || *c == '\\')
+				{
+					strncpy (gamedir, path, c+1-path);
+					qprintf ("gamedir: %s\n", gamedir);
+					// search basedir in path
+					c -= len;
+					while (c != path)
+					{
+						if(*c == '/' || *c == '\\')
+						{
+							strncpy (qdir, path, c+1-path);
+							qprintf ("qdir: %s\n", qdir);
+							return;
+						}
+						c--;
+					}
+					Error ("No qdir in %s", path);
+					return;
+				}
+				c--;
+			}
 			Error ("No gamedir in %s", path);
 			return;
 		}
-	Error ("SetQdirFromPath: no '%s' in %s", BASEDIRNAME, path);
+	Error ("SetQdirFromPath: no '%s' in %s", "maps", path);
 }
 
 char *ExpandArg (char *path)
@@ -271,7 +351,40 @@ char *copystring(char *s)
 	return b;
 }
 
+void Q_SecondsToDHMS( unsigned int elapsed_time, unsigned int *days, unsigned int *hours, unsigned int *minutes, unsigned int *seconds )
+{
+	*seconds = elapsed_time % 60;
+	elapsed_time /= 60;
 
+	*minutes = elapsed_time % 60;
+	elapsed_time /= 60;
+
+	*hours = elapsed_time % 24;
+	elapsed_time /= 24;
+
+	*days = elapsed_time;
+}
+
+void Q_LogTimeElapsed( double elapsed_time )
+{
+	unsigned int itime = (unsigned int)elapsed_time;
+	unsigned int days = 0;
+	unsigned int hours = 0;
+	unsigned int minutes = 0;
+	unsigned int seconds = 0;
+
+	Q_SecondsToDHMS( itime, &days, &hours, &minutes, &seconds );
+
+	if (days) {
+		printf("%.2f seconds elapsed [%ud %uh %um %us]\n", elapsed_time, days, hours, minutes, seconds);
+	} else if (hours) {
+		printf("%.2f seconds elapsed [%uh %um %us]\n", elapsed_time, hours, minutes, seconds);
+	} else if (minutes) {
+		printf("%.2f seconds elapsed [%um %us]\n", elapsed_time, minutes, seconds);
+	} else {
+		printf("%.2f seconds elapsed\n", elapsed_time);
+	}
+}
 
 /*
 ================
@@ -460,7 +573,7 @@ int Q_strcasecmp (char *s1, char *s2)
 }
 
 
-char *strupr (char *start)
+char *strtoupper (char *start)
 {
 	char	*in;
 	in = start;

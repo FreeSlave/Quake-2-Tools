@@ -530,7 +530,8 @@ int main (int argc, char **argv)
 	int		i;
 	double		start, end;
 		
-	printf ("---- vis ----\n");
+	printf( "Quake II VIS Compiler (build " __DATE__ ")\n" );
+	printf( "----------- qvis3 -----------\n" );
 
 	verbose = false;
 	for (i=1 ; i<argc ; i++)
@@ -604,11 +605,12 @@ int main (int argc, char **argv)
 	printf ("visdatasize:%i  compressed from %i\n", visdatasize, originalvismapsize*2);
 
 	sprintf (name, "%s%s", outbase, source);
-	printf ("writing %s\n", name);
 	WriteBSPFile (name);	
 	
 	end = I_FloatTime ();
-	printf ("%5.1f seconds elapsed\n", end-start);
+
+	printf( "\n--------- end qvis3 ---------\n" );
+	Q_LogTimeElapsed( end-start );
 
 	return 0;
 }

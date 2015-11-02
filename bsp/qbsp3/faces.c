@@ -874,7 +874,7 @@ Chop up faces that are larger than we want in the surface cache
 */
 void SubdivideFace (node_t *node, face_t *f)
 {
-	float		mins, maxs;
+	vec_t		mins, maxs;
 	vec_t		v;
 	int			axis, i;
 	texinfo_t	*tex;

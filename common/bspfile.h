@@ -124,6 +124,7 @@ vec_t	FloatForKey (entity_t *ent, char *key);
 void 	GetVectorForKey (entity_t *ent, char *key, vec3_t vec);
 
 epair_t *ParseEpair (void);
+void	RemoveLastEpair( entity_t *ent );
 
 void PrintEntity (entity_t *ent);
 

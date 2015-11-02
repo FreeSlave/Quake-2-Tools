@@ -940,7 +940,7 @@ void SplitBrush (bspbrush_t *brush, int planenum,
 	winding_t	*w, *cw[2], *midwinding;
 	plane_t		*plane, *plane2;
 	side_t		*s, *cs;
-	float		d, d_front, d_back;
+	vec_t		d, d_front, d_back;
 
 	*front = *back = NULL;
 	plane = &mapplanes[planenum];
