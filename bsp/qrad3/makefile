@@ -26,8 +26,12 @@ _irixclean:
 _osf:
 	make "CFLAGS = -c -O4 -I../../common -threads" "LDFLAGS = -threads" "ODIR = osf"
 
+linux:
+	-mkdir -p ../build-qrad3
+	make CFLAGS="-c -I../../common -O2" ODIR=../build-qrad3
+	
 clean:
-	rm -f irix/*.o irix/$(EXEBASE)
+	rm -f $(ODIR)/*.o $(ODIR)/$(EXEBASE)
 
 install:
 	cp irix/$(EXEBASE) /limbo/quake2/bin_irix
