@@ -15,6 +15,14 @@ Building x86_64 binaries on x86 host (requires gcc-multilib to be installed):
     (cd bsp/qrad3 && make ODIR=../build-m64-qrad3 $OPTIONS)
     (cd bsp/qvis3 && make ODIR=../build-m64-qvis3 $OPTIONS)
 
+There's also script to make all compilers in one command:
+
+	sh make_all.sh
+
+Also supports command line parameters:
+
+	sh make_all.sh clean
+
 # Original README.txt by id Software
 
 Fri Feb 17 11:10:50 CST 2006

@@ -26,10 +26,10 @@ _osf:
 	make "CFLAGS = -c -O4 -I../../common -threads" "LDFLAGS = -threads -lm" "ODIR = osf"
 	
 clean:
-	rm -f $(ODIR)/*.o $(ODIR)/$(EXEBASE)
+	rm -f $(ODIR)/*.o $(BINDIR)/$(EXEBASE)
 
 install:
-	cp irix/$(EXEBASE) /limbo/quake2/bin_irix
+	cp $(EXE) $(DESTDIR)/usr/local/bin
 
 
 FILES = $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/mathlib.o $(ODIR)/scriplib.o  $(ODIR)/threads.o $(ODIR)/qvis3.o $(ODIR)/flow.o
