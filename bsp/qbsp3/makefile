@@ -1,7 +1,7 @@
 
-CFLAGS = -c -I../../common -O2
+CFLAGS = -c -pthread -I../../common -O2
 CFLAGS += $(USER_FLAGS)
-LDFLAGS = $(USER_FLAGS)
+LDFLAGS = $(USER_FLAGS) -pthread
 BINDIR = ../bin
 ODIR = ../build-qbsp3
 

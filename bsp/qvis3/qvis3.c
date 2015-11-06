@@ -578,6 +578,8 @@ int main (int argc, char **argv)
 	start = I_FloatTime ();
 	
 	ThreadSetDefault ();
+	
+	printf("numthreads set to %d\n", numthreads);
 
 	SetQdirFromPath (argv[i]);	
 	strcpy (source, ExpandArg(argv[i]));

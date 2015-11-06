@@ -682,6 +682,7 @@ int main (int argc, char **argv)
 	if (i != argc - 1)
 		Error ("usage: qrad [-v] [-chop num] [-scale num] [-ambient num] [-maxlight num] [-threads num] bspfile");
 
+	printf("numthreads set to %d\n", numthreads);
 	start = I_FloatTime ();
 
 	SetQdirFromPath (argv[i]);	
