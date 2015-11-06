@@ -116,7 +116,7 @@ ProcessBlock_Thread
 ============
 */
 int			brush_start, brush_end;
-void ProcessBlock_Thread (int blocknum)
+void ProcessBlock_Thread (ptrdiff_t blocknum)
 {
 	int		xblock, yblock;
 	vec3_t		mins, maxs;

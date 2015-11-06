@@ -129,9 +129,9 @@ extern	byte	nodehit[MAX_MAP_NODES];
 
 void BuildLightmaps (void);
 
-void BuildFacelights (int facenum);
+void BuildFacelights (ptrdiff_t facenum);
 
-void FinalLightFace (int facenum);
+void FinalLightFace (ptrdiff_t facenum);
 
 qboolean PvsForOrigin (vec3_t org, byte *pvs);
 

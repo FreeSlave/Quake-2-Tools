@@ -1047,7 +1047,7 @@ float	sampleofs[5][2] =
 {  {0,0}, {-0.25, -0.25}, {0.25, -0.25}, {0.25, 0.25}, {-0.25, 0.25} };
 
 
-void BuildFacelights (int facenum)
+void BuildFacelights (ptrdiff_t facenum)
 {
 	dface_t	*f;
 	lightinfo_t	l[5];
@@ -1161,7 +1161,7 @@ Add the indirect lighting on top of the direct
 lighting and save into final map format
 =============
 */
-void FinalLightFace (int facenum)
+void FinalLightFace (ptrdiff_t facenum)
 {
 	dface_t		*f;
 	int			i, j, k, st;

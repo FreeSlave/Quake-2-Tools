@@ -67,9 +67,9 @@ int	GetThreadWork (void)
 }
 
 
-void (*workfunction) (int);
+void (*workfunction) (ptrdiff_t);
 
-void ThreadWorkerFunction (int threadnum)
+void ThreadWorkerFunction (ptrdiff_t threadnum)
 {
 	int		work;
 
@@ -83,7 +83,7 @@ void ThreadWorkerFunction (int threadnum)
 	}
 }
 
-void RunThreadsOnIndividual (int workcnt, qboolean showpacifier, void(*func)(int))
+void RunThreadsOnIndividual (int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t))
 {
 	if (numthreads == -1)
 		ThreadSetDefault ();
@@ -376,17 +376,17 @@ void ThreadUnlock (void)
 		pthread_mutex_unlock (my_mutex);
 }
 
-static void(*q_entry)(int) = 0;
+static void(*q_entry)(ptrdiff_t) = 0;
 
 static void* ThreadEntryStub(void* pParam)
 {
-    q_entry((int)pParam);
+    q_entry((ptrdiff_t)pParam);
     return NULL;
 }
 
-void RunThreadsOn(int workcnt, qboolean showpacifier, void(*func)(int))
+void RunThreadsOn(int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t))
 {
-    int       i;
+    ptrdiff_t       i;
     pthread_t       work_threads[MAX_THREADS];
     pthread_addr_t  status;
     pthread_attr_t  attrib;

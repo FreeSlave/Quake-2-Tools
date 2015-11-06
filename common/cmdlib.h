@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <ctype.h>
 #include <time.h>
 #include <stdarg.h>
+#include <stddef.h>
 
 #ifndef __BYTEBOOL__
 #define __BYTEBOOL__

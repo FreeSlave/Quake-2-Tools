@@ -140,9 +140,9 @@ extern	int		portalbytes, portallongs;
 void LeafFlow (int leafnum);
 
 
-void BasePortalVis (int portalnum);
+void BasePortalVis (ptrdiff_t portalnum);
 void BetterPortalVis (int portalnum);
-void PortalFlow (int portalnum);
+void PortalFlow (ptrdiff_t portalnum);
 
 extern	portal_t	*sorted_portals[MAX_MAP_PORTALS*2];
 

@@ -192,7 +192,7 @@ MakeTransfers
 */
 int	total_transfer;
 
-void MakeTransfers (int i)
+void MakeTransfers (ptrdiff_t i)
 {
 	int			j;
 	vec3_t		delta;
@@ -453,7 +453,7 @@ Send light out to other patches
   Run multi-threaded
 =============
 */
-void ShootLight (int patchnum)
+void ShootLight (ptrdiff_t patchnum)
 {
 	int			k, l;
 	transfer_t	*trans;

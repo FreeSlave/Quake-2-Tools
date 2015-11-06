@@ -3,7 +3,8 @@ CFLAGS = -c -pthread -I../../common -O2
 CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread
 BINDIR = ../bin
-ODIR = ../build-qrad3
+BUILDDIR = ../build
+ODIR = "$(BUILDDIR)/qrad3"
 
 EXEBASE = qrad3
 EXE = $(BINDIR)/qrad3

@@ -22,10 +22,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 extern	int		numthreads;
 
+#include <stddef.h>
+
 void ThreadSetDefault (void);
 int	GetThreadWork (void);
-void RunThreadsOnIndividual (int workcnt, qboolean showpacifier, void(*func)(int));
-void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(int));
+void RunThreadsOnIndividual (int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t));
+void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t));
 void ThreadLock (void);
 void ThreadUnlock (void);
 

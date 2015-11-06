@@ -3,7 +3,8 @@ CFLAGS = -c -pthread -I../../common -O2
 CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread -lm 
 BINDIR = ../bin
-ODIR = ../build-qvis3
+BUILDDIR = ../build
+ODIR = "$(BUILDDIR)/qvis3"
 
 EXEBASE = qvis3
 EXE = $(BINDIR)/qvis3

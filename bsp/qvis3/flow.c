@@ -540,7 +540,7 @@ PortalFlow
 generates the portalvis bit vector
 ===============
 */
-void PortalFlow (int portalnum)
+void PortalFlow (ptrdiff_t portalnum)
 {
 	threaddata_t	data;
 	int				i;
@@ -652,7 +652,7 @@ void SimpleFlood (portal_t *srcportal, int leafnum)
 BasePortalVis
 ==============
 */
-void BasePortalVis (int portalnum)
+void BasePortalVis (ptrdiff_t portalnum)
 {
 	int			j, k;
 	portal_t	*tp, *p;

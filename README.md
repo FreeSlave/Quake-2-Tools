@@ -8,21 +8,24 @@ Building all compilers:
     (cd bsp/qrad3 && make)
     (cd bsp/qvis3 && make)
 
-Building x86_64 binaries on x86 host (requires gcc-multilib to be installed):
-
-    export OPTIONS="USER_FLAGS=-m64 BINDIR=../bin-m64"
-    (cd bsp/qbsp3 && make ODIR=../build-m64-qbsp3 $OPTIONS)
-    (cd bsp/qrad3 && make ODIR=../build-m64-qrad3 $OPTIONS)
-    (cd bsp/qvis3 && make ODIR=../build-m64-qvis3 $OPTIONS)
-
 There's also script to make all compilers in one command:
 
-	sh make_all.sh
+    sh make_all.sh
 
-Also supports command line parameters:
+Also it supports command line parameters:
 
-	sh make_all.sh clean
+    sh make_all.sh clean
 
+Building x86_64 binaries on x86 host (requires gcc-multilib to be installed):
+
+    ./make_all.sh USER_FLAGS=-m64 BINDIR=../bin-m64 BUILDDIR=../build-m64
+
+Building x86 binaries on x86_64 host (requires gcc-multilib to be installed):
+
+    ./make_all.sh USER_FLAGS=-m32 BINDIR=../bin-m32 BUILDDIR=../build-m32
+
+By default binaries are build for your host architecture.
+    
 # Original README.txt by id Software
 
 Fri Feb 17 11:10:50 CST 2006

@@ -3,7 +3,8 @@ CFLAGS = -c -pthread -I../../common -O2
 CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread
 BINDIR = ../bin
-ODIR = ../build-qbsp3
+BUILDDIR = ../build
+ODIR = "$(BUILDDIR)/qbsp3"
 
 EXEBASE = qbsp3
 EXE = $(BINDIR)/qbsp3
