@@ -4,13 +4,13 @@ CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread -lm 
 BINDIR = ../bin
 BUILDDIR = ../build
-ODIR = "$(BUILDDIR)/qvis3"
+ODIR = $(BUILDDIR)/qvis3
 
 prefix = /usr/local
 
 EXEBASE = qvis3
 EXE = $(BINDIR)/$(EXEBASE)
-all: $(EXE)
+all: dirs $(EXE)
 
 _next:
 	make "CFLAGS = -c -g -I../../common" "ODIR = next"
@@ -43,7 +43,7 @@ dirs:
 	-mkdir -p $(BINDIR)
 	-mkdir -p $(ODIR)
 
-$(EXE) : dirs $(FILES)
+$(EXE) : $(FILES)
 	cc -o $(EXE) $(LDFLAGS) $(FILES)
 	
 $(ODIR)/qvis3.o : qvis3.c

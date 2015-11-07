@@ -4,13 +4,13 @@ CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread
 BINDIR = ../bin
 BUILDDIR = ../build
-ODIR = "$(BUILDDIR)/qbsp3"
+ODIR = $(BUILDDIR)/qbsp3
 
 prefix = /usr/local
 
 EXEBASE = qbsp3
 EXE = $(BINDIR)/$(EXEBASE)
-all: $(EXE)
+all: dirs $(EXE)
 
 _next:
 	make "CFLAGS = -c -g -I../../common -DDOUBLEVEC_T" "ODIR = next"
@@ -46,7 +46,7 @@ dirs:
 	-mkdir -p $(BINDIR)
 	-mkdir -p $(ODIR)
 
-$(EXE) : dirs $(FILES)
+$(EXE) : $(FILES)
 	cc -o $(EXE) $(LDFLAGS) $(FILES) -lm
 	
 $(ODIR)/brushbsp.o : brushbsp.c

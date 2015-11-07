@@ -150,7 +150,7 @@ void ThreadUnlock (void)
 RunThreadsOn
 =============
 */
-void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(int))
+void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t))
 {
 	int		threadid[MAX_THREADS];
 	HANDLE	threadhandle[MAX_THREADS];
@@ -244,7 +244,7 @@ void ThreadUnlock (void)
 RunThreadsOn
 =============
 */
-void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(int))
+void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t))
 {
 	int		i;
 	pthread_t	work_threads[MAX_THREADS];
@@ -507,7 +507,7 @@ void ThreadUnlock (void)
 RunThreadsOn
 =============
 */
-void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(int))
+void RunThreadsOn (int workcnt, qboolean showpacifier, void(*func)(ptrdiff_t))
 {
 	int		i;
 	int		pid[MAX_THREADS];

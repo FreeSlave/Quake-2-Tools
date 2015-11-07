@@ -4,13 +4,13 @@ CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread
 BINDIR = ../bin
 BUILDDIR = ../build
-ODIR = "$(BUILDDIR)/qrad3"
+ODIR = $(BUILDDIR)/qrad3
 
 prefix = /usr/local
 
 EXEBASE = qrad3
 EXE = $(BINDIR)/$(EXEBASE)
-all: $(EXE)
+all: dirs $(EXE)
 
 _next:
 	make "CFLAGS = -c -g -I../../common" "ODIR = next"
@@ -46,7 +46,7 @@ dirs:
 	-mkdir -p $(BINDIR)
 	-mkdir -p $(ODIR)
 
-$(EXE) : dirs $(FILES)
+$(EXE) : $(FILES)
 	cc -o $(EXE) $(LDFLAGS) $(FILES) -lm
 	
 $(ODIR)/qrad3.o : qrad3.c
