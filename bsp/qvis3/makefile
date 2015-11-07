@@ -6,8 +6,10 @@ BINDIR = ../bin
 BUILDDIR = ../build
 ODIR = "$(BUILDDIR)/qvis3"
 
+prefix = /usr/local
+
 EXEBASE = qvis3
-EXE = $(BINDIR)/qvis3
+EXE = $(BINDIR)/$(EXEBASE)
 all: $(EXE)
 
 _next:
@@ -30,8 +32,10 @@ clean:
 	rm -f $(ODIR)/*.o $(BINDIR)/$(EXEBASE)
 
 install:
-	cp $(EXE) $(DESTDIR)/usr/local/bin
+	install -m755 $(EXE) $(DESTDIR)$(prefix)/bin
 
+uninstall:
+	rm -f $(DESTDIR)$(prefix)/bin/$(EXEBASE)
 
 FILES = $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/mathlib.o $(ODIR)/scriplib.o  $(ODIR)/threads.o $(ODIR)/qvis3.o $(ODIR)/flow.o
 

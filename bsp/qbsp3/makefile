@@ -1,13 +1,15 @@
 
-CFLAGS = -c -pthread -I../../common -O2
+CFLAGS = -c -pthread -I../../common -O2 -DDOUBLEVEC_T
 CFLAGS += $(USER_FLAGS)
 LDFLAGS = $(USER_FLAGS) -pthread
 BINDIR = ../bin
 BUILDDIR = ../build
 ODIR = "$(BUILDDIR)/qbsp3"
 
+prefix = /usr/local
+
 EXEBASE = qbsp3
-EXE = $(BINDIR)/qbsp3
+EXE = $(BINDIR)/$(EXEBASE)
 all: $(EXE)
 
 _next:
@@ -33,8 +35,10 @@ clean:
 	rm -f $(ODIR)/*.o $(EXE)
 
 install:
-	cp $(EXE) $(DESTDIR)/usr/local/bin
+	install -m755 $(EXE) $(DESTDIR)$(prefix)/bin
 
+uninstall:
+	rm -f $(DESTDIR)$(prefix)/bin/$(EXEBASE)
 
 FILES = $(ODIR)/brushbsp.o $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/faces.o $(ODIR)/nodraw.o $(ODIR)/glfile.o $(ODIR)/leakfile.o $(ODIR)/map.o $(ODIR)/mathlib.o $(ODIR)/polylib.o $(ODIR)/portals.o $(ODIR)/prtfile.o $(ODIR)/qbsp3.o $(ODIR)/scriplib.o $(ODIR)/textures.o $(ODIR)/threads.o $(ODIR)/tree.o $(ODIR)/writebsp.o $(ODIR)/csg.o
 

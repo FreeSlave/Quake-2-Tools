@@ -6,8 +6,10 @@ BINDIR = ../bin
 BUILDDIR = ../build
 ODIR = "$(BUILDDIR)/qrad3"
 
+prefix = /usr/local
+
 EXEBASE = qrad3
-EXE = $(BINDIR)/qrad3
+EXE = $(BINDIR)/$(EXEBASE)
 all: $(EXE)
 
 _next:
@@ -33,8 +35,10 @@ clean:
 	rm -f $(ODIR)/*.o $(EXE)
 
 install:
-	cp $(EXE) $(DESTDIR)/usr/local/bin
+	install -m755 $(EXE) $(DESTDIR)$(prefix)/bin
 
+uninstall:
+	rm -f $(DESTDIR)$(prefix)/bin/$(EXEBASE)
 
 FILES = $(ODIR)/bspfile.o $(ODIR)/cmdlib.o $(ODIR)/lbmlib.o $(ODIR)/mathlib.o $(ODIR)/scriplib.o $(ODIR)/polylib.o $(ODIR)/qrad3.o $(ODIR)/threads.o $(ODIR)/trace.o $(ODIR)/lightmap.o $(ODIR)/patches.o
 
